@@ -54,6 +54,7 @@ public class Main {
         }
         System.out.println("__________________");
     }
+
     public static void studentsSortedPerClass(List<SchoolClass> classes){
         for(SchoolClass schoolClass: classes){
             System.out.println("Класс № " + schoolClass.getClassNumber());
@@ -61,6 +62,13 @@ public class Main {
             System.out.println();
         }
         System.out.println("__________________");
+    }
+
+    private static List<SchoolChild> filterBySubject(String subject, SchoolClass schoolClass){
+        List<SchoolChild> filteredList = schoolClass.filterSchoolChildrenBySubject(subject);
+        if(filteredList.isEmpty())
+            System.out.println("В классе нет такого предмета.");
+        return filteredList;
     }
 
     public static void infoStudentsPerClass(Scanner sc, List<SchoolClass> classes){
@@ -73,17 +81,13 @@ public class Main {
                 break;
             for(SchoolClass schoolClass: classes){
                 System.out.println("Класс № " + schoolClass.getClassNumber());
-                List<SchoolChild> filteredList = schoolClass.filterSchoolChildrenBySubject(subject);
-                if(filteredList.isEmpty())
-                    System.out.println("В классе нет такого предмета.");
-                else
-                    filteredList.stream().sorted().forEach(System.out::println);
+                List<SchoolChild> filteredList = filterBySubject(subject,schoolClass);
+                filteredList.stream().sorted().forEach(System.out::println);
                 System.out.println();
             }
             System.out.println("__________________");
         }
     }
-
 
     public static void main(String[] args) {
         try {
