@@ -46,8 +46,6 @@ public class SchoolClass{
     }
 
     public List<SchoolChild> filterSchoolChildrenBySubject(String subject){
-        List<SchoolChild> a;
-        a = this.getSchoolChildStorage().stream().filter(p -> p.getSubjectName().equals(subject)).collect(Collectors.toList());
-        return a;
+        return this.getSchoolChildStorage().stream().filter(p -> p.getSubjectName().equals(subject)).collect(Collectors.toList());
     }
 }
