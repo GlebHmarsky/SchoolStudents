@@ -47,6 +47,44 @@ public class Main {
         return classes;
     }
 
+    public static void averageGradePerClass(List<SchoolClass> classes){
+        for(SchoolClass schoolClass: classes){
+            System.out.println("Класс № " + schoolClass.getClassNumber() + " Ср. арифметическое: " +
+                    schoolClass.averageValueByMarks());
+        }
+        System.out.println("__________________");
+    }
+    public static void studentsSortedPerClass(List<SchoolClass> classes){
+        for(SchoolClass schoolClass: classes){
+            System.out.println("Класс № " + schoolClass.getClassNumber());
+            schoolClass.getSchoolChildStorage().stream().sorted().forEach(System.out::println);
+            System.out.println();
+        }
+        System.out.println("__________________");
+    }
+
+    public static void infoStudentsPerClass(Scanner sc, List<SchoolClass> classes){
+        String subject;
+        while (true) {
+            System.out.print("Введите название предмета или введите 'назад' чтобы вернуться назад\n" +
+                    ">>>\n");
+            subject = sc.next();
+            if (subject.toLowerCase().equals("назад"))
+                break;
+            for(SchoolClass schoolClass: classes){
+                System.out.println("Класс № " + schoolClass.getClassNumber());
+                List<SchoolChild> filteredList = schoolClass.filterSchoolChildrenBySubject(subject);
+                if(filteredList.isEmpty())
+                    System.out.println("В классе нет такого предмета.");
+                else
+                    filteredList.stream().sorted().forEach(System.out::println);
+                System.out.println();
+            }
+            System.out.println("__________________");
+        }
+    }
+
+
     public static void main(String[] args) {
         try {
             String schoolDataFilePath = "data/data_school.txt";
@@ -62,39 +100,13 @@ public class Main {
                 action = sc.nextInt();
                 switch (action) {
                     case 1:
-                        for(SchoolClass schoolClass: classes){
-                            System.out.println("Класс № " + schoolClass.getClassNumber() + " Ср. арифметическое: " +
-                                    schoolClass.averageValueByMarks());
-                        }
-                        System.out.println("__________________");
+                        averageGradePerClass(classes);
                         break;
                     case 2:
-                        for(SchoolClass schoolClass: classes){
-                            System.out.println("Класс № " + schoolClass.getClassNumber());
-                            schoolClass.getSchoolChildStorage().stream().sorted().forEach(System.out::println);
-                            System.out.println();
-                        }
-                        System.out.println("__________________");
+                        studentsSortedPerClass(classes);
                         break;
                     case 3:
-                        String subject;
-                        while (true) {
-                            System.out.print("Введите название предмета или введите 'назад' чтобы вернуться назад\n" +
-                                    ">>>\n");
-                            subject = sc.next();
-                            if (subject.toLowerCase().equals("назад"))
-                                break;
-                            for(SchoolClass schoolClass: classes){
-                                System.out.println("Класс № " + schoolClass.getClassNumber());
-                                List<SchoolChild> filteredList = schoolClass.filterSchoolChildrenBySubject(subject);
-                                if(filteredList.isEmpty())
-                                    System.out.println("В классе нет такого предмета.");
-                                else
-                                    filteredList.stream().sorted().forEach(System.out::println);
-                                System.out.println();
-                            }
-                            System.out.println("__________________");
-                        }
+                        infoStudentsPerClass(sc, classes);
                         break;
                     case 4:
                         return;
